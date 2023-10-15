@@ -1,5 +1,8 @@
 package com.jsu.employeecreator.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import java.sql.Date;
 
 import com.jsu.employeecreator.enums.EBasis;
@@ -15,9 +18,9 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
-
-public class CreateEmployeeDTO {
-
+@Entity
+@Table(name = "employees")
+public class Employee {
     // * Primary Key
     @Getter
     @Id
@@ -31,75 +34,80 @@ public class CreateEmployeeDTO {
     @NotEmpty
     @Getter
     @Setter
-    private String first_name;
+    private String firstName;
 
     // * Middle Name
     @Column(name = "middle_name")
     @Getter
     @Setter
-    private String middle_name;
+    private String middleName;
 
     // * Last Name
+
     @Column(name = "last_name")
     @NotEmpty
     @Getter
     @Setter
-    private String last_name;
+    private String lastName;
 
     /* --------------------------- Contact Information -------------------------- */
 
     // * Email Address
+
     @Column(name = "email_address")
     @NotEmpty
     @Getter
     @Setter
     @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
-    private String email_address;
+    private String emailAddress;
 
     // * Phone Number
+    // * This should follow the Australian phone number format (+61 ### ### ###)
     @Column(name = "phone_number")
     @NotNull
     @Getter
     @Setter
     @Pattern(regexp = "^\\d{3}-\\d{3}-\\d{3}$")
-    private String phone_number;
+    private String phoneNumber;
 
     // * Residential Address
-    // TODO: Add validation or make use of an address search API
+    // ? Should this just be a string or should it be its own entity?
     @Column(name = "residential_address")
     @Getter
     @Setter
-    private String residential_address;
-
+    private String residentialAddress;
 
     /* ----------------------------- Employee Status ---------------------------- */
 
-    // * Contract Type 
+    // * Contract Type
+
     @Column(name = "contract_type")
     @NotNull
     @Getter
     @Setter
-    private EContractType contract_type;
+    private EContractType contractType;
 
     // * Start Date
+
     @Column(name = "start_date")
     @NotNull
     @Getter
     @Setter
-    private Date start_date;
+    private Date startDate;
 
     // * End Date
+
     @Column(name = "end_date")
     @Getter
     @Setter
-    private Date end_date;
+    private Date endDate;
 
     // * Is Ongoing
     @Column(name = "is_ongoing")
     @NotNull
     @Getter
     @Setter
-    private boolean is_ongoing;
+    private boolean isOngoing;
 
     // * Basis
     @Column(name = "basis")
@@ -109,9 +117,39 @@ public class CreateEmployeeDTO {
     private EBasis basis;
 
     // * Hours per week
+
     @Column(name = "hours_per_week")
     @NotNull
     @Getter
     @Setter
-    private byte hours_per_week;
+    private byte hoursPerWeek;
+
+    /* -------------------------------------------------------------------------- */
+    /* Constructors */
+    /* -------------------------------------------------------------------------- */
+
+    public Employee(String firstName,
+            String lastName,
+            String emailAddress,
+            String phoneNumber,
+            String residentialAddress,
+            EContractType contractType,
+            Date startDate,
+            Date endDate,
+            boolean isOngoing,
+            EBasis basis,
+            byte hoursPerWeek) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmailAddress(emailAddress);
+        setPhoneNumber(phoneNumber);
+        setResidentialAddress(residentialAddress);
+        setContractType(contractType);
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setOngoing(isOngoing);
+        setBasis(basis);
+        setHoursPerWeek(hoursPerWeek);
+    }
+
 }
